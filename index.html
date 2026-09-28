@@ -25,7 +25,7 @@
             width: 100%;
         }
 
-        /* الهيدر العلوي المطابق للصورة تماماً */
+        /* الهيدر العلوي */
         header {
             background: #ffffff;
             padding: 15px 25px;
@@ -36,24 +36,33 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
         
-        /* القوائم في أعلى اليمين */
+        /* أعلى اليمين: اسم المنصة وتحته الروابط */
+        .header-right {
+            text-align: right;
+        }
+        .platform-name {
+            font-size: 15px;
+            color: #0f172a;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 20px;
-            font-size: 14px;
+            gap: 12px;
+            font-size: 12px;
             font-weight: 600;
         }
         .nav-links a {
             text-decoration: none;
-            color: #475569;
+            color: #64748b;
             transition: color 0.2s;
         }
         .nav-links a:hover {
             color: #0284c7;
         }
 
-        /* شعار البلدية والعنوان في أعلى اليسار */
+        /* أعلى اليسار: شعار البلدية والعنوان */
         .brand-section {
             display: flex;
             align-items: center;
@@ -61,7 +70,7 @@
             text-align: left;
         }
         .brand-text h1 {
-            font-size: 15px;
+            font-size: 14px;
             color: #0f172a;
             font-weight: 700;
             line-height: 1.2;
@@ -72,15 +81,15 @@
             margin-top: 2px;
         }
         .municipality-logo {
-            width: 42px;
-            height: 42px;
+            width: 40px;
+            height: 40px;
             background: #0284c7;
             color: #fff;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
             box-shadow: 0 2px 6px rgba(2,132,199,0.3);
         }
 
@@ -139,7 +148,7 @@
             box-shadow: 0 0 0 4px rgba(2,132,199,0.1);
         }
 
-        /* زر البحث الأزرق المتطابق */
+        /* زر البحث الأزرق */
         .search-btn {
             width: 100%;
             background: #0284c7;
@@ -298,18 +307,22 @@
 </head>
 <body>
 
-    <!-- الهيدر العلوي (مطابق للصورة) -->
+    <!-- الهيدر العلوي -->
     <header>
-        <!-- القوائم في اليمين -->
-        <div class="nav-links">
-            <a href="#">🔔 الرئيسية</a>
-            <a href="#">عن المنصة</a>
+        <!-- أعلى اليمين: اسم المنصة وتحته روابط التنقل -->
+        <div class="header-right">
+            <div class="platform-name">بوابة موظفي ديوان البلدية</div>
+            <div class="nav-links">
+                <a href="#">🔔 الرئيسية</a>
+                <span>•</span>
+                <a href="#">عن المنصة</a>
+            </div>
         </div>
 
-        <!-- الشعار والعنوان في اليسار -->
+        <!-- أعلى اليسار: شعار البلدية واسم الجهة -->
         <div class="brand-section">
             <div class="brand-text">
-                <h1>بوابة موظفي ديوان البلدية</h1>
+                <h1>ديوان بلدية العربان</h1>
                 <p>بياناتك الوظيفية… بين يديك</p>
             </div>
             <div class="municipality-logo">🏛️</div>
@@ -322,7 +335,7 @@
         <!-- العنوان البارز في المنتصف -->
         <div class="hero-section">
             <h2>تحقق من بياناتك الإدارية<br>في سجلات الديوان بكل سهولة.</h2>
-            <p>منصة مستقلة تستهل الاستعلام والبحث في السجلات الإدارية ومتابعة النواقص للموظفين.</p>
+            <p>منصة مستقلة تسهل الاستعلام والبحث في السجلات الإدارية ومتابعة النواقص للموظفين.</p>
         </div>
 
         <!-- صندوق البحث -->
@@ -443,7 +456,7 @@
             }
         }
 
-        // إمكانية البحث عبر الضغط على زر Enter من لوحة المفاتيح
+        // البحث عبر الضغط على Enter
         document.getElementById('nationalIdInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 searchEmployee();
