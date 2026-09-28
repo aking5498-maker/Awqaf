@@ -80,7 +80,7 @@
         .search-input {
             width: 100%;
             padding: 15px 20px;
-            padding-left: 110px; /* مساحة لزر البحث الداخلي */
+            padding-left: 110px;
             border: 2px solid #cbd5e1;
             border-radius: 10px;
             font-size: 15px;
@@ -178,9 +178,6 @@
             font-weight: 700;
             font-size: 13px;
             margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
         .deficiency-items {
             list-style-type: none;
@@ -199,7 +196,6 @@
             position: absolute;
             right: 5px;
             font-weight: bold;
-            font-size: 16px;
         }
 
         .success-box {
@@ -281,7 +277,73 @@
         </div>
     </footer>
 
-    <!-- ربط ملف البيانات -->
-    <script src="script.js"></script>
+    <!-- قاعدة البيانات ومنطق البحث مدمجة هنا مباشرة -->
+    <script>
+        const employeesDatabase = [
+            {
+                nationalId: "202020123456",
+                name: "عبدالباري سعدون فرحات",
+                department: "قسم الشؤون الإدارية وتقنية المعلومات",
+                title: "مطور أنظمة ومسؤول تقني",
+                status: "على رأس العمل",
+                deficiencies: [] // بدون نواقص
+            },
+            {
+                nationalId: "201980987654",
+                name: "محمود أحمد الهادي",
+                department: "قسم الحسابات والميزانية",
+                title: "محاسب مالي",
+                status: "على رأس العمل",
+                deficiencies: [
+                    "صورة شمسية حديثة ملونة (عدد 2)",
+                    "إفادة إدارية بعدم السوابق الجنائية"
+                ]
+            }
+        ];
+
+        function searchEmployee() {
+            const inputVal = document.getElementById('nationalIdInput').value.trim();
+            const resultCard = document.getElementById('resultCard');
+            const errorBox = document.getElementById('errorBox');
+            
+            resultCard.classList.remove('show');
+            errorBox.style.display = 'none';
+
+            if (inputVal === "") {
+                alert("الرجاء إدخال الرقم الوطني أولاً.");
+                return;
+            }
+
+            const foundEmployee = employeesDatabase.find(emp => emp.nationalId === inputVal);
+
+            if (foundEmployee) {
+                document.getElementById('resName').innerText = foundEmployee.name;
+                document.getElementById('resId').innerText = foundEmployee.nationalId;
+                document.getElementById('resDept').innerText = foundEmployee.department;
+                document.getElementById('resTitle').innerText = foundEmployee.title;
+                document.getElementById('resStatus').innerText = foundEmployee.status;
+
+                const statusContainer = document.getElementById('statusContainer');
+                
+                if (foundEmployee.deficiencies.length > 0) {
+                    let listHTML = foundEmployee.deficiencies.map(item => `<li>${item}</li>`).join('');
+                    statusContainer.innerHTML = `
+                        <div class="deficiency-alert">
+                            <div class="deficiency-heading">⚠️ النواقص المطلوبة في الملف الإداري:</div>
+                            <ul class="deficiency-items">${listHTML}</ul>
+                        </div>
+                    `;
+                } else {
+                    statusContainer.innerHTML = `
+                        <div class="success-box">✅ ملفك الإداري مكتمل ولا توجد أي نواقص مطلوبة حالياً.</div>
+                    `;
+                }
+
+                resultCard.classList.add('show');
+            } else {
+                errorBox.style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>
