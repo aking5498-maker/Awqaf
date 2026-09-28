@@ -3,463 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة موظفي ديوان بلدية العربان</title>
+    <title>منصة إفراجك - الاستعلام عن المفرج عنهم</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
         body {
-            background-color: #f0f4f8;
-            color: #1e293b;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 650px;
-            margin: 0 auto;
-            padding: 20px;
-            width: 100%;
-        }
-
-        /* الهيدر العلوي */
-        header {
-            background: #ffffff;
-            padding: 15px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #e2e8f0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-        }
-        
-        /* أعلى اليمين: اسم المنصة وتحته روابط التنقل */
-        .header-right {
-            text-align: right;
-        }
-        .platform-name {
-            font-size: 15px;
-            color: #0f172a;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        .nav-links a {
-            text-decoration: none;
-            color: #64748b;
-            transition: color 0.2s;
-        }
-        .nav-links a:hover {
-            color: #0284c7;
-        }
-
-        /* أعلى اليسار: شعار البلدية واسم الجهة */
-        .brand-section {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-align: left;
-        }
-        .brand-text h1 {
-            font-size: 14px;
-            color: #0f172a;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-        .brand-text p {
-            font-size: 11px;
-            color: #64748b;
-            margin-top: 2px;
-        }
-        .municipality-logo {
-            width: 40px;
-            height: 40px;
-            background: #0284c7;
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            box-shadow: 0 2px 6px rgba(2,132,199,0.3);
-        }
-
-        /* القسم الرئيسي والعنوان البارز */
-        .hero-section {
-            text-align: center;
-            padding: 35px 10px 20px 10px;
-        }
-        .hero-section h2 {
-            font-size: 24px;
-            color: #0f172a;
-            font-weight: 800;
-            line-height: 1.4;
-            margin-bottom: 10px;
-        }
-        .hero-section p {
-            font-size: 13px;
-            color: #64748b;
-            max-width: 500px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        /* صندوق البحث الأبيض */
-        .search-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 30px 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
-            margin-top: 15px;
-        }
-        .input-label {
-            font-size: 14px;
-            font-weight: 700;
-            color: #334155;
-            margin-bottom: 10px;
-            display: block;
-            text-align: right;
-        }
-        .input-box {
-            width: 100%;
-            padding: 15px 18px;
-            border: 2px solid #cbd5e1;
-            border-radius: 12px;
-            font-size: 15px;
-            outline: none;
-            background: #f8fafc;
-            transition: all 0.2s;
-            text-align: right;
-            margin-bottom: 20px;
-        }
-        .input-box:focus {
-            border-color: #0284c7;
-            background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(2,132,199,0.1);
-        }
-
-        /* زر البحث الأزرق */
-        .search-btn {
-            width: 100%;
-            background: #0284c7;
-            color: #fff;
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(2,132,199,0.25);
-        }
-        .search-btn:hover {
-            background: #0369a1;
-        }
-
-        .search-hint {
-            font-size: 12px;
-            color: #94a3b8;
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        /* رسالة الخطأ */
-        .error-box {
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-            color: #991b1b;
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 15px;
-            font-size: 13px;
-            display: none;
-            text-align: center;
-        }
-
-        /* كارت نتيجة الاستعلام */
-        .result-card {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 25px;
-            margin-top: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
-            border: 1px solid #e2e8f0;
-            display: none;
-            border-top: 5px solid #0284c7;
-        }
-        .result-card.show {
-            display: block;
-        }
-        .result-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        .data-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            font-size: 13px;
-            border-bottom: 1px dashed #f1f5f9;
-        }
-        .data-label {
-            color: #64748b;
-            font-weight: 600;
-        }
-        .data-val {
-            color: #0f172a;
-            font-weight: 700;
-        }
-
-        /* التنبيهات */
-        .deficiency-alert {
-            margin-top: 20px;
-            background: #fff5f5;
-            border: 1px solid #feb2b2;
-            border-radius: 10px;
-            padding: 15px;
-        }
-        .deficiency-heading {
-            color: #c53030;
-            font-weight: 700;
-            font-size: 13px;
-            margin-bottom: 8px;
-        }
-        .deficiency-items {
-            list-style-type: none;
-            padding: 0;
-        }
-        .deficiency-items li {
-            font-size: 13px;
-            color: #9b2c2c;
-            padding: 4px 0;
-            position: relative;
-            padding-right: 18px;
-        }
-        .deficiency-items li::before {
-            content: "•";
-            color: #c53030;
-            position: absolute;
-            right: 5px;
-            font-weight: bold;
-        }
-        .success-box {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            color: #166534;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 13px;
-            margin-top: 20px;
-            text-align: center;
-            font-weight: 700;
-        }
-
-        /* الفوتر السفلي */
-        footer {
-            background: #ffffff;
-            color: #64748b;
-            text-align: center;
-            padding: 25px 20px;
-            margin-top: auto;
-            font-size: 12px;
-            border-top: 1px solid #e2e8f0;
-            line-height: 1.6;
-        }
-        footer .footer-title {
-            font-weight: bold;
-            color: #0f172a;
-            margin-bottom: 4px;
-        }
-        footer .footer-update {
-            color: #0284c7;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        footer .footer-desc {
-            color: #475569;
-            margin-bottom: 12px;
-        }
-        footer .footer-copy {
-            font-size: 11px;
-            color: #94a3b8;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 10px;
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col justify-between bg-gradient-to-br from-slate-50 via-sky-50 to-slate-100 text-slate-800">
 
-    <!-- الهيدر العلوي -->
-    <header>
-        <div class="header-right">
-            <div class="platform-name">بوابة موظفي ديوان البلدية</div>
-            <div class="nav-links">
-                <a href="#">🔔 الرئيسية</a>
-                <span>•</span>
-                <a href="#">عن المنصة</a>
+    <!-- Header / Navbar -->
+    <header class="bg-white shadow-sm border-b border-slate-200">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="bg-sky-600 text-white p-2.5 rounded-xl shadow-md font-black text-xl">
+                    إفراجك
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900">منصة إفراجك</h1>
+                    <p class="text-xs text-slate-500">الاستعلام الرسمي عن كشوفات المفرج عنهم</p>
+                </div>
             </div>
-        </div>
-
-        <div class="brand-section">
-            <div class="brand-text">
-                <h1>ديوان بلدية العربان</h1>
-                <p>بياناتك الوظيفية… بين يديك</p>
+            <div class="text-sm font-medium text-sky-600 bg-sky-50 px-3 py-1 rounded-full border border-sky-100">
+                بوابة رسمية آمنة
             </div>
-            <div class="municipality-logo">🏛️</div>
         </div>
     </header>
 
-    <!-- المحتوى الرئيسي -->
-    <div class="container">
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-10 w-full flex-grow">
         
-        <div class="hero-section">
-            <h2>تحقق من اسمك في القوائم المنشورة<br>بكل سهولة ويسر.</h2>
-            <p>منصة مستقلة تستهل البحث في الكشوفات والقوائم الإدارية الصادرة عن ديوان بلدية العربان.</p>
+        <!-- Hero Section -->
+        <div class="text-center mb-10">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-3">
+                استعلم عن اسم المفرج عنه بسهولة
+            </h2>
+            <p class="text-slate-600 max-w-xl mx-auto text-sm sm:text-base">
+                أدخل اسم الشخص الرباعي أو الثلاثي للبحث الفوري في كشوفات المفرج عنهم الرسمية المعتمدة.
+            </p>
         </div>
 
-        <!-- صندوق البحث بالاسم -->
-        <div class="search-card">
-            <label class="input-label">الاسم أو جزء منه:</label>
-            <input type="text" id="searchInput" class="input-box" placeholder="اكتب الاسم كاملاً أو جزءاً منه..." maxlength="50">
+        <!-- Search Box Card -->
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-8 mb-8">
+            <div class="relative">
+                <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="اكتب اسم المفرج عنه للبحث (مثال: مفتاح الصديق)..." 
+                    class="w-full pr-12 pl-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white text-slate-800 text-lg transition shadow-inner"
+                >
+            </div>
             
-            <button class="search-btn" onclick="searchEmployeeByName()">
-                <span>ابحث الآن</span>
-                <span>🔍</span>
-            </button>
-            
-            <div class="search-hint">اكتب 3 أحرف على الأقل. يمكنك الضغط على Enter مباشرة.</div>
-            <div id="errorBox" class="error-box">عذراً، لم يتم العثور على أي مطابقة بهذا الاسم في القوائم المنشورة.</div>
+            <div class="mt-4 flex items-center justify-between text-xs text-slate-500 px-1">
+                <span id="resultsCount">إجمالي الأسماء في القاعدة: جاري التحميل...</span>
+                <button id="clearBtn" class="text-sky-600 hover:underline font-semibold hidden">إعادة ضبط البحث</button>
+            </div>
         </div>
 
-        <!-- نتيجة البحث -->
-        <div id="resultCard" class="result-card">
-            <div class="result-title">📋 نتيجة البحث في القوائم</div>
-            <div class="data-row">
-                <span class="data-label">الاسم الثلاثي أو الرباعي:</span>
-                <span class="data-val" id="resName">-</span>
+        <!-- Results Section -->
+        <div id="resultsContainer" class="space-y-4">
+            <!-- Initial State / Helper -->
+            <div id="initialState" class="text-center py-12 bg-white/50 rounded-2xl border border-dashed border-slate-300">
+                <svg class="w-16 h-16 mx-auto text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+                <p class="text-slate-500 font-medium">ابدأ بكتابة اسم للبحث في الكشوفات</p>
             </div>
-            <div class="data-row">
-                <span class="data-label">القائمة الواردة منها:</span>
-                <span class="data-val" id="resList">-</span>
-            </div>
-            <div class="data-row">
-                <span class="data-label">القسم الإداري:</span>
-                <span class="data-val" id="resDept">-</span>
-            </div>
-            <div class="data-row">
-                <span class="data-label">حالة القائمة:</span>
-                <span class="data-val" id="resStatus" style="color: #16a34a;">معتمد ضمن القوائم</span>
-            </div>
-
-            <div id="statusContainer"></div>
         </div>
-    </div>
 
-    <!-- الفوتر السفلي -->
-    <footer>
-        <div class="footer-title">بوابة موظفي ديوان بلدية العربان</div>
-        <div class="footer-update">آخر تحديث للبيانات: سبتمبر 2026</div>
-        <div class="footer-desc">منصة تابعة لديوان بلدية العربان، وتهدف إلى تسهيل البحث في القوائم المنشورة بكل مرونة.</div>
-        <div class="footer-copy">جميع الحقوق محفوظة © 2026 | تصميم وتطوير: م. عبدالباري فرحات</div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-16 py-6 text-center text-sm text-slate-600">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div>
+                جميع الحقوق محفوظة © 2026 منصة <strong>إفراجك</strong>
+            </div>
+            <div class="text-sky-700 font-medium">
+                تصميم وبرمجة: م عبدالباري فرحات
+            </div>
+        </div>
     </footer>
 
-    <!-- قاعدة البيانات ومنطق البحث بالاسم -->
-    <script>
-        // عينة من الأسماء المستخرجة من الكشوفات التي أرفقتها
-        const employeesDatabase = [
-            {
-                name: "مفتاح الصديق علي الرقيق",
-                listName: "قائمة الإفراجات والترقيات العامة - الكشف (1)",
-                department: "الشؤون الإدارية",
-                deficiencies: []
-            },
-            {
-                name: "مفتاح المهدي محمد أبوسدرة",
-                listName: "قائمة الاعتماد المالي - الكشف (2)",
-                department: "الحسابات والميزانية",
-                deficiencies: ["تحديث الإقرار الإداري"]
-            },
-            {
-                name: "ملاك أحمد مسعود كعوان",
-                listName: "قائمة القوى العاملة والتوظيف - الكشف (3)",
-                department: "شؤون الموظفين",
-                deficiencies: []
-            },
-            {
-                name: "عبدالباري سعدون فرحات العكرمي",
-                listName: "قائمة المنظومات الرقمية والبوابة - الكشف العام",
-                department: "تقنية المعلومات",
-                deficiencies: []
-            }
-        ];
+    <!-- Embedded Data & Search Script -->
+<script>
+    // قاعدة بيانات الأسماء (يمكنك إضافة أو تعديل الأسماء هنا بسهولة)
+    const releaseData = [
+        { id: "6145", name: "مفتاح الصديق علي الرقيق", list: "كشف شهر 9 - 2026" },
+        { id: "6146", name: "مفتاح المهدي محمد ابوسدره", list: "كشف شهر 9 - 2026" },
+        { id: "6147", name: "مفتاح جمعه عبدالله الشيباني", list: "كشف شهر 9 - 2026" },
+        { id: "6148", name: "مفتاح حسن مفتاح أبو شعاله", list: "كشف شهر 9 - 2026" },
+        { id: "6149", name: "مفتاح رجب ابراهيم النيبو", list: "كشف شهر 9 - 2026" },
+        { id: "6150", name: "مفتاح رياض مفتاح عطيه", list: "كشف شهر 9 - 2026" },
+        { id: "6151", name: "مفتاح سالم محمد القيب", list: "كشف شهر 9 - 2026" },
+        { id: "6152", name: "مفتاح سالم مفتاح أحمد", list: "كشف شهر 9 - 2026" },
+        { id: "6153", name: "مفتاح سعد عمار اللبيب", list: "كشف شهر 9 - 2026" },
+        { id: "6154", name: "مفتاح ضو مفتاح الصيد", list: "كشف شهر 9 - 2026" },
+        { id: "6155", name: "مفتاح عبد الرحمن منصور بن عمران", list: "كشف شهر 9 - 2026" },
+        { id: "6156", name: "مفتاح عبد العاطى مفتاح عمر", list: "كشف شهر 9 - 2026" },
+        { id: "6157", name: "مفتاح عبد اللطيف سالم بوراص", list: "كشف شهر 9 - 2026" },
+        { id: "6158", name: "مفتاح على أمراجع صالح", list: "كشف شهر 9 - 2026" },
+        { id: "6159", name: "مفتاح على مفتاح اهبال", list: "كشف شهر 9 - 2026" },
+        { id: "6160", name: "مفتاح محمد مفتاح الشوشان", list: "كشف شهر 9 - 2026" },
+        { id: "6161", name: "مفتاح منجي مفتاح انبيه", list: "كشف شهر 9 - 2026" },
+        { id: "6162", name: "مفتاح منصور سالم الأبيض", list: "كشف شهر 9 - 2026" },
+        { id: "6163", name: "مفتاح ميلاد عمر القبي", list: "كشف شهر 9 - 2026" },
+        { id: "6164", name: "مفتاح ناصر مفتاح ابو خشيم", list: "كشف شهر 9 - 2026" },
+        { id: "6165", name: "مفتاح نوری مفتاح عمار", list: "كشف شهر 9 - 2026" },
+        { id: "6166", name: "مفتاح يوسف مفتاح اللواتي", list: "كشف شهر 9 - 2026" },
+        { id: "6167", name: "مفيدة اعقاب خليفة حسن", list: "كشف شهر 9 - 2026" },
+        { id: "6168", name: "مفيدة البشير خليفة كريدان", list: "كشف شهر 9 - 2026" },
+        { id: "6169", name: "مفيده عاشور على الرتيمي", list: "كشف شهر 9 - 2026" },
+        { id: "6170", name: "مقبوله عبد القادر عبد الله عبد القادر", list: "كشف شهر 9 - 2026" },
+        { id: "6171", name: "مكرم مفتاح محمد عجينة", list: "كشف شهر 9 - 2026" },
+        { id: "6172", name: "ملاك أحمد مسعود كعوان", list: "كشف شهر 9 - 2026" },
+        { id: "6173", name: "ملاك ابراهيم احمد المحريق", list: "كشف شهر 9 - 2026" },
+        { id: "6174", name: "ملاك احمد ميلاد عاشور", list: "كشف شهر 9 - 2026" },
+        { id: "6175", name: "ملاك الخضير على التائب", list: "كشف شهر 9 - 2026" },
+        { id: "6176", name: "ملاك الصديق مفتاح أبوشفشوفه", list: "كشف شهر 9 - 2026" },
+        { id: "6177", name: "ملاك المبروك خليل كحيل", list: "كشف شهر 9 - 2026" },
+        { id: "6178", name: "ملاك المختار امحمد الشريف", list: "كشف شهر 9 - 2026" },
+        { id: "6179", name: "ملاك المختار على جبيره", list: "كشف شهر 9 - 2026" },
+        { id: "6180", name: "ملاك امين شمس الدين شيحه", list: "كشف شهر 9 - 2026" },
+        { id: "6181", name: "ملاك بالقاسم محمد حسين", list: "كشف شهر 9 - 2026" },
+        { id: "6182", name: "ملاك جمال البشير خليفة الاجطل", list: "كشف شهر 9 - 2026" },
+        { id: "6183", name: "ملاك جمعه محمد ابو النيران", list: "كشف شهر 9 - 2026" },
+        { id: "6184", name: "ملاك حسين عيسى سيجوك", list: "كشف شهر 9 - 2026" },
+        { id: "6185", name: "ملاك خالد أحمد التجاني مازن", list: "كشف شهر 9 - 2026" },
+        { id: "6186", name: "ملاك رمضان المختار دقالي", list: "كشف شهر 9 - 2026" },
+        { id: "6187", name: "ملاك سالم محمد العابدي", list: "كشف شهر 9 - 2026" },
+        { id: "6188", name: "ملاك سليمان علي الجابري", list: "كشف شهر 9 - 2026" },
+        { id: "6189", name: "ملاك صبحى عبد الله المزوغي", list: "كشف شهر 9 - 2026" },
+        { id: "6190", name: "ملاك طاهر بوبكر الصيديه", list: "كشف شهر 9 - 2026" },
+        { id: "6191", name: "ملاك عبد الرحمن مسعود المرغني", list: "كشف شهر 9 - 2026" },
+        { id: "6192", name: "ملاك عبد الرحيم مصطفى الدهماني", list: "كشف شهر 9 - 2026" },
+        { id: "6194", name: "ملاك عبد الفتاح فرج الحاج محمد", list: "كشف شهر 9 - 2026" },
+        { id: "6195", name: "ملاك عبدالله خميس رحومة", list: "كشف شهر 9 - 2026" }
+    ];
 
-        function searchEmployeeByName() {
-            const inputVal = document.getElementById('searchInput').value.trim().toLowerCase();
-            const resultCard = document.getElementById('resultCard');
-            const errorBox = document.getElementById('errorBox');
-            
-            resultCard.classList.remove('show');
-            errorBox.style.display = 'none';
+    document.getElementById('resultsCount').innerText = `إجمالي الأسماء المتاحة في قاعدة البيانات: ${releaseData.length} اسم`;
 
-            if (inputVal === "" || inputVal.length < 2) {
-                alert("الرجاء كتابة حرفين على الأقل للبحث بالاسم.");
-                return;
-            }
+    const searchInput = document.getElementById('searchInput');
+    const resultsContainer = document.getElementById('resultsContainer');
+    const clearBtn = document.getElementById('clearBtn');
 
-            // البحث الجزئي أو الكلي بالاسم
-            const foundEmployee = employeesDatabase.find(emp => emp.name.toLowerCase().includes(inputVal));
-
-            if (foundEmployee) {
-                document.getElementById('resName').innerText = foundEmployee.name;
-                document.getElementById('resList').innerText = foundEmployee.listName;
-                document.getElementById('resDept').innerText = foundEmployee.department;
-
-                const statusContainer = document.getElementById('statusContainer');
-                
-                if (foundEmployee.deficiencies.length > 0) {
-                    let listHTML = foundEmployee.deficiencies.map(item => `<li>${item}</li>`).join('');
-                    statusContainer.innerHTML = `
-                        <div class="deficiency-alert">
-                            <div class="deficiency-heading">⚠️ ملاحظات أو نواقص مسجلة:</div>
-                            <ul class="deficiency-items">${listHTML}</ul>
-                        </div>
-                    `;
-                } else {
-                    statusContainer.innerHTML = `
-                        <div class="success-box">✅ الاسم مدرج ومعتمد بالكامل ولا توجد أي ملاحظات.</div>
-                    `;
-                }
-
-                resultCard.classList.add('show');
-            } else {
-                errorBox.style.display = 'block';
-            }
+    searchInput.addEventListener('input', function(e) {
+        const query = e.target.value.trim().toLowerCase();
+        
+        if (query.length === 0) {
+            resultsContainer.innerHTML = `
+                <div id="initialState" class="text-center py-12 bg-white/50 rounded-2xl border border-dashed border-slate-300">
+                    <svg class="w-16 h-16 mx-auto text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                    <p class="text-slate-500 font-medium">ابدأ بكتابة اسم للبحث في الكشوفات</p>
+                </div>
+            `;
+            clearBtn.classList.add('hidden');
+            return;
         }
 
-        // البحث عبر الضغط على Enter
-        document.getElementById('searchInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                searchEmployeeByName();
-            }
+        clearBtn.classList.remove('hidden');
+
+        // فلترة النتائج بناءً على الاسم المدخل
+        const filtered = releaseData.filter(item => item.name.toLowerCase().includes(query));
+
+        if (filtered.length === 0) {
+            resultsContainer.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-md p-8 text-center border border-amber-100 bg-amber-50/30">
+                    <svg class="w-12 h-12 mx-auto text-amber-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    <h3 class="text-lg font-bold text-slate-800 mb-1">عذراً، لم يتم العثور على نتائج</h3>
+                    <p class="text-sm text-slate-600">تأكد من كتابة الاسم بشكل صحيح أو جرب البحث بجزء من الاسم.</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = `<div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-xl mb-4 text-sm font-semibold">
+            تم العثور على ${filtered.length} نتيجة مطابقة:
+        </div>`;
+
+        filtered.forEach(person => {
+            html += `
+                <div class="bg-white rounded-2xl shadow-sm hover:shadow-md border border-slate-200 p-5 transition flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="flex items-start space-x-4 space-x-reverse">
+                        <div class="bg-emerald-100 text-emerald-700 p-3 rounded-xl mt-0.5">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900">${person.name}</h3>
+                            <div class="flex items-center gap-3 mt-1 text-xs text-slate-500">
+                                <span>رقم القيد: <strong class="text-slate-700">${person.id}</strong></span>
+                                <span>•</span>
+                                <span class="bg-slate-100 px-2 py-0.5 rounded text-slate-600">${person.list}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inline-flex items-center justify-center bg-emerald-600 text-white font-semibold px-4 py-2 rounded-xl text-sm shadow-sm">
+                        تم الإفراج ✓
+                    </div>
+                </div>
+            `;
         });
-    </script>
+
+        resultsContainer.innerHTML = html;
+    });
+
+    clearBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        searchInput.dispatchEvent(new Event('input'));
+        searchInput.focus();
+    });
+</script>
+
 </body>
 </html>
