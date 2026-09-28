@@ -36,7 +36,7 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
         
-        /* أعلى اليمين: اسم المنصة وتحته الروابط */
+        /* أعلى اليمين: اسم المنصة وتحته روابط التنقل */
         .header-right {
             text-align: right;
         }
@@ -62,7 +62,7 @@
             color: #0284c7;
         }
 
-        /* أعلى اليسار: شعار البلدية والعنوان */
+        /* أعلى اليسار: شعار البلدية واسم الجهة */
         .brand-section {
             display: flex;
             align-items: center;
@@ -96,24 +96,24 @@
         /* القسم الرئيسي والعنوان البارز */
         .hero-section {
             text-align: center;
-            padding: 40px 10px 25px 10px;
+            padding: 35px 10px 20px 10px;
         }
         .hero-section h2 {
-            font-size: 26px;
+            font-size: 24px;
             color: #0f172a;
             font-weight: 800;
-            line-height: 1.5;
-            margin-bottom: 12px;
+            line-height: 1.4;
+            margin-bottom: 10px;
         }
         .hero-section p {
-            font-size: 14px;
+            font-size: 13px;
             color: #64748b;
             max-width: 500px;
             margin: 0 auto;
             line-height: 1.6;
         }
 
-        /* صندوق البحث الأبيض العائم */
+        /* صندوق البحث الأبيض */
         .search-card {
             background: #ffffff;
             border-radius: 20px;
@@ -228,7 +228,7 @@
             font-weight: 700;
         }
 
-        /* تنبيه النواقص أو النجاح */
+        /* التنبيهات */
         .deficiency-alert {
             margin-top: 20px;
             background: #fff5f5;
@@ -309,7 +309,6 @@
 
     <!-- الهيدر العلوي -->
     <header>
-        <!-- أعلى اليمين: اسم المنصة وتحته روابط التنقل -->
         <div class="header-right">
             <div class="platform-name">بوابة موظفي ديوان البلدية</div>
             <div class="nav-links">
@@ -319,7 +318,6 @@
             </div>
         </div>
 
-        <!-- أعلى اليسار: شعار البلدية واسم الجهة -->
         <div class="brand-section">
             <div class="brand-text">
                 <h1>ديوان بلدية العربان</h1>
@@ -332,48 +330,43 @@
     <!-- المحتوى الرئيسي -->
     <div class="container">
         
-        <!-- العنوان البارز في المنتصف -->
         <div class="hero-section">
-            <h2>تحقق من بياناتك الإدارية<br>في سجلات الديوان بكل سهولة.</h2>
-            <p>منصة مستقلة تسهل الاستعلام والبحث في السجلات الإدارية ومتابعة النواقص للموظفين.</p>
+            <h2>تحقق من اسمك في القوائم المنشورة<br>بكل سهولة ويسر.</h2>
+            <p>منصة مستقلة تستهل البحث في الكشوفات والقوائم الإدارية الصادرة عن ديوان بلدية العربان.</p>
         </div>
 
-        <!-- صندوق البحث -->
+        <!-- صندوق البحث بالاسم -->
         <div class="search-card">
-            <label class="input-label">الرقم الوطني:</label>
-            <input type="text" id="nationalIdInput" class="input-box" placeholder="اكتب الرقم الوطني..." maxlength="12">
+            <label class="input-label">الاسم أو جزء منه:</label>
+            <input type="text" id="searchInput" class="input-box" placeholder="اكتب الاسم كاملاً أو جزءاً منه..." maxlength="50">
             
-            <button class="search-btn" onclick="searchEmployee()">
+            <button class="search-btn" onclick="searchEmployeeByName()">
                 <span>ابحث الآن</span>
                 <span>🔍</span>
             </button>
             
-            <div class="search-hint">اكتب الرقم الوطني كاملاً. يمكنك الضغط على Enter مباشرة.</div>
-            <div id="errorBox" class="error-box">عذراً، الرقم الوطني المدخل غير مسجل في قاعدة البيانات. يرجى التحقق وإعادة المحاولة.</div>
+            <div class="search-hint">اكتب 3 أحرف على الأقل. يمكنك الضغط على Enter مباشرة.</div>
+            <div id="errorBox" class="error-box">عذراً، لم يتم العثور على أي مطابقة بهذا الاسم في القوائم المنشورة.</div>
         </div>
 
         <!-- نتيجة البحث -->
         <div id="resultCard" class="result-card">
-            <div class="result-title">📋 السجل الوظيفي للموظف</div>
+            <div class="result-title">📋 نتيجة البحث في القوائم</div>
             <div class="data-row">
-                <span class="data-label">الاسم الرباعي:</span>
+                <span class="data-label">الاسم الثلاثي أو الرباعي:</span>
                 <span class="data-val" id="resName">-</span>
             </div>
             <div class="data-row">
-                <span class="data-label">الرقم الوطني:</span>
-                <span class="data-val" id="resId">-</span>
+                <span class="data-label">القائمة الواردة منها:</span>
+                <span class="data-val" id="resList">-</span>
             </div>
             <div class="data-row">
                 <span class="data-label">القسم الإداري:</span>
                 <span class="data-val" id="resDept">-</span>
             </div>
             <div class="data-row">
-                <span class="data-label">المسمى الوظيفي:</span>
-                <span class="data-val" id="resTitle">-</span>
-            </div>
-            <div class="data-row">
-                <span class="data-label">الحالة الوظيفية:</span>
-                <span class="data-val" id="resStatus" style="color: #16a34a;">على رأس العمل</span>
+                <span class="data-label">حالة القائمة:</span>
+                <span class="data-val" id="resStatus" style="color: #16a34a;">معتمد ضمن القوائم</span>
             </div>
 
             <div id="statusContainer"></div>
@@ -384,55 +377,60 @@
     <footer>
         <div class="footer-title">بوابة موظفي ديوان بلدية العربان</div>
         <div class="footer-update">آخر تحديث للبيانات: سبتمبر 2026</div>
-        <div class="footer-desc">منصة تابعة لديوان بلدية العربان، وتهدف إلى تسهيل البحث ومتابعة النواقص الإدارية للموظفين بكل مرونة.</div>
+        <div class="footer-desc">منصة تابعة لديوان بلدية العربان، وتهدف إلى تسهيل البحث في القوائم المنشورة بكل مرونة.</div>
         <div class="footer-copy">جميع الحقوق محفوظة © 2026 | تصميم وتطوير: م. عبدالباري فرحات</div>
     </footer>
 
-    <!-- البرمجة وقاعدة البيانات -->
+    <!-- قاعدة البيانات ومنطق البحث بالاسم -->
     <script>
+        // عينة من الأسماء المستخرجة من الكشوفات التي أرفقتها
         const employeesDatabase = [
             {
-                nationalId: "202020123456",
-                name: "عبدالباري سعدون فرحات العكرمي",
-                department: "قسم الشؤون الإدارية وتقنية المعلومات",
-                title: "مطور أنظمة ومسؤول تقني",
-                status: "على رأس العمل",
-                deficiencies: [] // ملف مكتمل
+                name: "مفتاح الصديق علي الرقيق",
+                listName: "قائمة الإفراجات والترقيات العامة - الكشف (1)",
+                department: "الشؤون الإدارية",
+                deficiencies: []
             },
             {
-                nationalId: "201980987654",
-                name: "محمود أحمد الهادي",
-                department: "قسم الحسابات والميزانية",
-                title: "محاسب مالي",
-                status: "على رأس العمل",
-                deficiencies: [
-                    "صورة شمسية حديثة ملونة (عدد 2)",
-                    "إفادة إدارية بعدم السوابق الجنائية"
-                ]
+                name: "مفتاح المهدي محمد أبوسدرة",
+                listName: "قائمة الاعتماد المالي - الكشف (2)",
+                department: "الحسابات والميزانية",
+                deficiencies: ["تحديث الإقرار الإداري"]
+            },
+            {
+                name: "ملاك أحمد مسعود كعوان",
+                listName: "قائمة القوى العاملة والتوظيف - الكشف (3)",
+                department: "شؤون الموظفين",
+                deficiencies: []
+            },
+            {
+                name: "عبدالباري سعدون فرحات العكرمي",
+                listName: "قائمة المنظومات الرقمية والبوابة - الكشف العام",
+                department: "تقنية المعلومات",
+                deficiencies: []
             }
         ];
 
-        function searchEmployee() {
-            const inputVal = document.getElementById('nationalIdInput').value.trim();
+        function searchEmployeeByName() {
+            const inputVal = document.getElementById('searchInput').value.trim().toLowerCase();
             const resultCard = document.getElementById('resultCard');
             const errorBox = document.getElementById('errorBox');
             
             resultCard.classList.remove('show');
             errorBox.style.display = 'none';
 
-            if (inputVal === "") {
-                alert("الرجاء كتابة الرقم الوطني أولاً.");
+            if (inputVal === "" || inputVal.length < 2) {
+                alert("الرجاء كتابة حرفين على الأقل للبحث بالاسم.");
                 return;
             }
 
-            const foundEmployee = employeesDatabase.find(emp => emp.nationalId === inputVal);
+            // البحث الجزئي أو الكلي بالاسم
+            const foundEmployee = employeesDatabase.find(emp => emp.name.toLowerCase().includes(inputVal));
 
             if (foundEmployee) {
                 document.getElementById('resName').innerText = foundEmployee.name;
-                document.getElementById('resId').innerText = foundEmployee.nationalId;
+                document.getElementById('resList').innerText = foundEmployee.listName;
                 document.getElementById('resDept').innerText = foundEmployee.department;
-                document.getElementById('resTitle').innerText = foundEmployee.title;
-                document.getElementById('resStatus').innerText = foundEmployee.status;
 
                 const statusContainer = document.getElementById('statusContainer');
                 
@@ -440,13 +438,13 @@
                     let listHTML = foundEmployee.deficiencies.map(item => `<li>${item}</li>`).join('');
                     statusContainer.innerHTML = `
                         <div class="deficiency-alert">
-                            <div class="deficiency-heading">⚠️ النواقص المطلوبة في الملف الإداري:</div>
+                            <div class="deficiency-heading">⚠️ ملاحظات أو نواقص مسجلة:</div>
                             <ul class="deficiency-items">${listHTML}</ul>
                         </div>
                     `;
                 } else {
                     statusContainer.innerHTML = `
-                        <div class="success-box">✅ ملفك الإداري مكتمل ولا توجد أي نواقص مطلوبة حالياً.</div>
+                        <div class="success-box">✅ الاسم مدرج ومعتمد بالكامل ولا توجد أي ملاحظات.</div>
                     `;
                 }
 
@@ -457,9 +455,9 @@
         }
 
         // البحث عبر الضغط على Enter
-        document.getElementById('nationalIdInput').addEventListener('keypress', function (e) {
+        document.getElementById('searchInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
-                searchEmployee();
+                searchEmployeeByName();
             }
         });
     </script>
