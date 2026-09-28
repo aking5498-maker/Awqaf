@@ -3,66 +3,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة الاستعلام الوظيفي - ديوان بلدية العربان</title>
+    <title>منظومة الاستعلام الإداري - ديوان بلدية العربان</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f0f4f8; color: #333; display: flex; flex-direction: column; min-height: 100vh; }
-        .container { max-width: 700px; margin: 0 auto; padding: 20px; width: 100%; }
-        header { background: #102a43; color: #fff; padding: 25px 0; text-align: center; border-bottom: 4px solid #0b69a3; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .logo-icon { font-size: 36px; margin-bottom: 8px; }
-        header h1 { font-size: 20px; margin-bottom: 5px; }
-        header p { font-size: 13px; color: #9fb3c8; }
-        .search-card { background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 30px; text-align: center; }
-        .search-card h2 { font-size: 16px; color: #1e293b; margin-bottom: 15px; }
-        .input-group { display: flex; gap: 10px; max-width: 500px; margin: 0 auto; flex-wrap: wrap; }
-        .search-input { flex: 1; padding: 14px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; }
-        .search-btn { background: #0b69a3; color: #fff; border: none; padding: 0 25px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
-        .result-card { background: #fff; border-radius: 12px; padding: 25px; margin-top: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: none; border-right: 5px solid #0b69a3; }
-        .result-card.show { display: block; }
-        .result-header { font-size: 17px; font-weight: bold; color: #102a43; margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
-        .info-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; border-bottom: 1px dashed #f1f5f9; }
-        .info-label { color: #64748b; font-weight: 600; }
-        .info-value { color: #1e293b; font-weight: bold; }
-        .deficiency-box { margin-top: 20px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 15px; }
-        .deficiency-title { color: #991b1b; font-weight: bold; font-size: 13px; margin-bottom: 8px; }
-        .deficiency-list { list-style-type: none; padding: 0; }
-        .deficiency-list li { font-size: 13px; color: #b91c1c; padding: 4px 0; position: relative; padding-right: 15px; }
-        .deficiency-list li::before { content: "⚠️"; position: absolute; right: 0; font-size: 11px; }
-        .no-deficiency { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 12px; border-radius: 8px; font-size: 13px; margin-top: 15px; text-align: center; font-weight: bold; }
-        .error-msg { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; font-size: 14px; display: none; }
-        footer { background: #102a43; color: #9fb3c8; text-align: center; padding: 20px 0; margin-top: auto; font-size: 12px; border-top: 3px solid #0b69a3; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f7f9fc;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+        }
+        /* الهيدر الرسمي */
+        header {
+            background: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .logo-circle {
+            width: 70px;
+            height: 70px;
+            background: #0f172a;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin: 0 auto 10px auto;
+            box-shadow: 0 4px 10px rgba(15,23,42,0.15);
+        }
+        header h1 {
+            font-size: 18px;
+            color: #0f172a;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+        header p {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* صندوق البحث المركزي */
+        .search-section {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+            margin-top: 30px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .search-section h2 {
+            font-size: 15px;
+            color: #334155;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+        .input-wrapper {
+            position: relative;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            padding-left: 110px; /* مساحة لزر البحث الداخلي */
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s;
+            background: #f8fafc;
+        }
+        .search-input:focus {
+            border-color: #2563eb;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
+        }
+        .search-btn {
+            position: absolute;
+            left: 6px;
+            top: 6px;
+            bottom: 6px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 0 22px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .search-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* رسالة الخطأ */
+        .error-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 13px;
+            display: none;
+        }
+
+        /* كارت نتيجة الاستعلام */
+        .result-card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 25px;
+            margin-top: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+            border: 1px solid #e2e8f0;
+            display: none;
+            border-top: 5px solid #2563eb;
+        }
+        .result-card.show {
+            display: block;
+        }
+        .result-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 14px;
+            border-bottom: 1px dashed #f1f5f9;
+        }
+        .data-label {
+            color: #64748b;
+            font-weight: 600;
+        }
+        .data-val {
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        /* تنبيهات النواقص */
+        .deficiency-alert {
+            margin-top: 20px;
+            background: #fff5f5;
+            border: 1px solid #feb2b2;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        .deficiency-heading {
+            color: #c53030;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .deficiency-items {
+            list-style-type: none;
+            padding: 0;
+        }
+        .deficiency-items li {
+            font-size: 13px;
+            color: #9b2c2c;
+            padding: 4px 0;
+            position: relative;
+            padding-right: 18px;
+        }
+        .deficiency-items li::before {
+            content: "•";
+            color: #c53030;
+            position: absolute;
+            right: 5px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .success-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        /* الفوتر */
+        footer {
+            background: #ffffff;
+            color: #64748b;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: auto;
+            font-size: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
     </style>
 </head>
 <body>
+
     <header>
-        <div class="container">
-            <div class="logo-icon">🏛️</div>
+        <div class="container" style="padding: 0 15px;">
+            <div class="logo-circle">🏛️</div>
             <h1>ديوان بلدية العربان</h1>
-            <p>منظومة الاستعلام عن بيانات الموظفين ومتابعة النواقص الإدارية</p>
+            <p>المنظومة الإلكترونية للاستعلام عن البيانات والنواقص الإدارية</p>
         </div>
     </header>
+
     <div class="container">
-        <div class="search-card">
-            <h2>الرجاء إدخال الرقم الوطني للبحث في السجلات</h2>
-            <div class="input-group">
+        <!-- قسم البحث -->
+        <div class="search-section">
+            <h2>الرجاء إدخال الرقم الوطني للتحقق من السجل</h2>
+            <div class="input-wrapper">
                 <input type="text" id="nationalIdInput" class="search-input" placeholder="أدخل الرقم الوطني..." maxlength="12">
-                <button class="search-btn" onclick="searchEmployee()">استعلام 🔍</button>
+                <button class="search-btn" onclick="searchEmployee()">بحث</button>
             </div>
-            <div id="errorMsg" class="error-msg">عذراً، الرقم الوطني المدخل غير موجود في قاعدة بيانات الديوان.</div>
+            <div id="errorBox" class="error-box">عذراً، الرقم الوطني المدخل غير مسجل في قاعدة البيانات. يرجى التحقق وإعادة المحاولة.</div>
         </div>
+
+        <!-- كارت عرض النتيجة -->
         <div id="resultCard" class="result-card">
-            <div class="result-header">📄 البيانات الوظيفية للموظف</div>
-            <div class="info-row"><span class="info-label">الاسم الرباعي:</span><span class="info-value" id="resName">-</span></div>
-            <div class="info-row"><span class="info-label">الرقم الوطني:</span><span class="info-value" id="resId">-</span></div>
-            <div class="info-row"><span class="info-label">القسم الإداري:</span><span class="info-value" id="resDept">-</span></div>
-            <div class="info-row"><span class="info-label">المسمى الوظيفي:</span><span class="info-value" id="resTitle">-</span></div>
-            <div class="info-row"><span class="info-label">الحالة الوظيفية:</span><span class="info-value" id="resStatus" style="color: #166534;">على رأس العمل</span></div>
-            <div id="deficiencyContainer"></div>
+            <div class="result-title">📋 بيانات الموظف المسجلة</div>
+            <div class="data-row">
+                <span class="data-label">الاسم الرباعي:</span>
+                <span class="data-val" id="resName">-</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">الرقم الوطني:</span>
+                <span class="data-val" id="resId">-</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">القسم الإداري:</span>
+                <span class="data-val" id="resDept">-</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">المسمى الوظيفي:</span>
+                <span class="data-val" id="resTitle">-</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">الحالة الوظيفية:</span>
+                <span class="data-val" id="resStatus" style="color: #16a34a;">على رأس العمل</span>
+            </div>
+
+            <div id="statusContainer"></div>
         </div>
     </div>
+
     <footer>
-        <div class="container">2026 © ديوان بلدية العربان | تصميم وتطوير: م. عبدالباري فرحات</div>
+        <div class="container" style="padding: 0 15px;">
+            2026 © ديوان بلدية العربان | تصميم وتطوير: م. عبدالباري فرحات
+        </div>
     </footer>
+
+    <!-- ربط ملف البيانات -->
     <script src="script.js"></script>
 </body>
 </html>
