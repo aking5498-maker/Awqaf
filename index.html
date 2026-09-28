@@ -12,7 +12,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background-color: #f1f5f9;
+            background-color: #f0f4f8;
             color: #1e293b;
             display: flex;
             flex-direction: column;
@@ -25,78 +25,113 @@
             width: 100%;
         }
 
-        /* الهيدر العلوي */
+        /* الهيدر العلوي المطابق للصورة تماماً */
         header {
             background: #ffffff;
-            padding: 18px 25px;
+            padding: 15px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #e2e8f0;
             box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #64748b;
-            font-size: 13px;
-            font-weight: 600;
-        }
-        .header-right a {
-            text-decoration: none;
-            color: #64748b;
-            transition: color 0.2s;
-        }
-        .header-right a:hover {
-            color: #0284c7;
         }
         
-        .header-left {
+        /* القوائم في أعلى اليمين */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #0284c7;
+        }
+
+        /* شعار البلدية والعنوان في أعلى اليسار */
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             text-align: left;
         }
-        .header-left h1 {
-            font-size: 16px;
+        .brand-text h1 {
+            font-size: 15px;
             color: #0f172a;
             font-weight: 700;
+            line-height: 1.2;
         }
-        .header-left p {
+        .brand-text p {
             font-size: 11px;
             color: #64748b;
             margin-top: 2px;
         }
+        .municipality-logo {
+            width: 42px;
+            height: 42px;
+            background: #0284c7;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 2px 6px rgba(2,132,199,0.3);
+        }
 
-        /* صندوق البحث المركزي */
-        .search-section {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 35px 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
-            margin-top: 40px;
-            border: 1px solid #e2e8f0;
+        /* القسم الرئيسي والعنوان البارز */
+        .hero-section {
             text-align: center;
+            padding: 40px 10px 25px 10px;
         }
-        .search-section h2 {
-            font-size: 15px;
+        .hero-section h2 {
+            font-size: 26px;
+            color: #0f172a;
+            font-weight: 800;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        .hero-section p {
+            font-size: 14px;
+            color: #64748b;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* صندوق البحث الأبيض العائم */
+        .search-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            margin-top: 15px;
+        }
+        .input-label {
+            font-size: 14px;
+            font-weight: 700;
             color: #334155;
-            margin-bottom: 20px;
-            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+            text-align: right;
         }
-        
         .input-box {
             width: 100%;
-            max-width: 450px;
-            margin: 0 auto 15px auto;
-            padding: 14px 18px;
+            padding: 15px 18px;
             border: 2px solid #cbd5e1;
-            border-radius: 10px;
-            font-size: 14px;
+            border-radius: 12px;
+            font-size: 15px;
             outline: none;
             background: #f8fafc;
             transition: all 0.2s;
             text-align: right;
+            margin-bottom: 20px;
         }
         .input-box:focus {
             border-color: #0284c7;
@@ -104,26 +139,33 @@
             box-shadow: 0 0 0 4px rgba(2,132,199,0.1);
         }
 
+        /* زر البحث الأزرق المتطابق */
         .search-btn {
             width: 100%;
-            max-width: 450px;
-            margin: 0 auto;
             background: #0284c7;
             color: #fff;
             border: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
             transition: background 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            box-shadow: 0 4px 12px rgba(2,132,199,0.25);
         }
         .search-btn:hover {
             background: #0369a1;
+        }
+
+        .search-hint {
+            font-size: 12px;
+            color: #94a3b8;
+            text-align: center;
+            margin-top: 15px;
         }
 
         /* رسالة الخطأ */
@@ -132,16 +174,14 @@
             border: 1px solid #fecaca;
             color: #991b1b;
             padding: 12px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-top: 15px;
             font-size: 13px;
             display: none;
-            max-width: 450px;
-            margin-left: auto;
-            margin-right: auto;
+            text-align: center;
         }
 
-        /* كارت النتيجة */
+        /* كارت نتيجة الاستعلام */
         .result-card {
             background: #ffffff;
             border-radius: 16px;
@@ -179,7 +219,7 @@
             font-weight: 700;
         }
 
-        /* النواقص أو الاكتمال */
+        /* تنبيه النواقص أو النجاح */
         .deficiency-alert {
             margin-top: 20px;
             background: #fff5f5;
@@ -258,29 +298,44 @@
 </head>
 <body>
 
-    <!-- الهيدر العلوي -->
+    <!-- الهيدر العلوي (مطابق للصورة) -->
     <header>
-        <div class="header-right">
-            <span>🔔</span>
-            <a href="#">الرئيسية</a>
-            <span>•</span>
+        <!-- القوائم في اليمين -->
+        <div class="nav-links">
+            <a href="#">🔔 الرئيسية</a>
             <a href="#">عن المنصة</a>
         </div>
-        <div class="header-left">
-            <h1>بوابة موظفي ديوان البلدية</h1>
-            <p>بياناتك الوظيفية… بين يديك</p>
+
+        <!-- الشعار والعنوان في اليسار -->
+        <div class="brand-section">
+            <div class="brand-text">
+                <h1>بوابة موظفي ديوان البلدية</h1>
+                <p>بياناتك الوظيفية… بين يديك</p>
+            </div>
+            <div class="municipality-logo">🏛️</div>
         </div>
     </header>
 
     <!-- المحتوى الرئيسي -->
     <div class="container">
-        <div class="search-section">
-            <h2>الاستعلام عن البيانات الإدارية</h2>
+        
+        <!-- العنوان البارز في المنتصف -->
+        <div class="hero-section">
+            <h2>تحقق من بياناتك الإدارية<br>في سجلات الديوان بكل سهولة.</h2>
+            <p>منصة مستقلة تستهل الاستعلام والبحث في السجلات الإدارية ومتابعة النواقص للموظفين.</p>
+        </div>
+
+        <!-- صندوق البحث -->
+        <div class="search-card">
+            <label class="input-label">الرقم الوطني:</label>
             <input type="text" id="nationalIdInput" class="input-box" placeholder="اكتب الرقم الوطني..." maxlength="12">
+            
             <button class="search-btn" onclick="searchEmployee()">
-                <span>ابحث الان</span>
+                <span>ابحث الآن</span>
                 <span>🔍</span>
             </button>
+            
+            <div class="search-hint">اكتب الرقم الوطني كاملاً. يمكنك الضغط على Enter مباشرة.</div>
             <div id="errorBox" class="error-box">عذراً، الرقم الوطني المدخل غير مسجل في قاعدة البيانات. يرجى التحقق وإعادة المحاولة.</div>
         </div>
 
@@ -387,6 +442,13 @@
                 errorBox.style.display = 'block';
             }
         }
+
+        // إمكانية البحث عبر الضغط على زر Enter من لوحة المفاتيح
+        document.getElementById('nationalIdInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                searchEmployee();
+            }
+        });
     </script>
 </body>
 </html>
