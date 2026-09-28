@@ -6,12 +6,11 @@
     <title>منصة إفراجك - الاستعلام عن المفرج عنهم</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- مكتبة قراءة ملفات الإكسل بسهولة فائقة -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #f8fafc;
-        }
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between bg-gradient-to-br from-slate-50 via-sky-50 to-slate-100 text-slate-800">
@@ -37,16 +36,29 @@
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-4 py-10 w-full flex-grow">
         
-        <div class="text-center mb-10">
+        <div class="text-center mb-8">
             <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-3">
                 استعلم عن اسم المفرج عنه بسهولة
             </h2>
             <p class="text-slate-600 max-w-xl mx-auto text-sm sm:text-base">
-                أدخل اسم المفرج عنه أو رقم القيد للبحث الفوري في كشوفات السجلات الرسمية.
+                أدخل اسم المفرج عنه أو رقم القيد للبحث الفوري في السجلات الرسمية.
             </p>
         </div>
 
-        <!-- Search Box Card -->
+        <!-- قسم رفع ملف الإكسل (يظهر مرة واحدة فقط لرفع ملفك) -->
+        <div id="uploadSection" class="bg-sky-50 border-2 border-dashed border-sky-300 rounded-2xl p-6 text-center mb-8">
+            <svg class="w-12 h-12 mx-auto text-sky-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+            <h3 class="font-bold text-sky-900 text-lg mb-1">قم برفع ملف الأسماء (Excel)</h3>
+            <p class="text-xs text-sky-700 mb-4">اختر ملف الإكسل الذي يحتوي على الأسماء وسيقوم الموقع بحفظها وقراءتها فورا.</p>
+            <input type="file" id="excelFile" accept=".xlsx, .xls, .csv" class="hidden">
+            <label for="excelFile" class="cursor-pointer bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm shadow-md transition inline-block">
+                اختيار ملف الإكسل 📁
+            </label>
+        </div>
+
+        <!-- Search Box -->
         <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-8 mb-8">
             <div class="relative mb-4">
                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
@@ -57,13 +69,14 @@
                 <input 
                     type="text" 
                     id="searchInput" 
-                    placeholder="اكتب الاسم الرباعي أو رقم القيد للبحث..." 
+                    placeholder="اكتب الاسم أو رقم القيد للبحث..." 
                     class="w-full pr-12 pl-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white text-slate-800 text-lg transition shadow-inner"
+                    disabled
                 >
             </div>
             
-            <div class="flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 px-1 gap-2">
-                <span id="resultsCount">قاعدة البيانات جاهزة للبحث الشامل</span>
+            <div class="flex items-center justify-between text-xs text-slate-500 px-1">
+                <span id="resultsCount">الرجاء رفع ملف الإكسل للبدء (قاعدة البيانات فارغة حالياً)</span>
                 <button id="clearBtn" class="text-sky-600 hover:underline font-semibold hidden">إعادة ضبط البحث</button>
             </div>
         </div>
@@ -71,10 +84,7 @@
         <!-- Results Section -->
         <div id="resultsContainer" class="space-y-4">
             <div class="text-center py-12 bg-white/50 rounded-2xl border border-dashed border-slate-300">
-                <svg class="w-16 h-16 mx-auto text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                </svg>
-                <p class="text-slate-500 font-medium">ابدأ بكتابة الاسم للبحث الفوري في الكشوفات</p>
+                <p class="text-slate-500 font-medium">بانتظار رفع ملف الأسماء لتفعيل محرك البحث</p>
             </div>
         </div>
 
@@ -92,77 +102,92 @@
         </div>
     </footer>
 
-    <!-- Search Engine Script -->
+    <!-- Scripting Engine -->
     <script>
-        // قاعدة البيانات الشاملة (يمكنك إضافة مئات الأسماء هنا بكل مرونة)
-        const releaseData = [
-            { id: "1", name: "محمد أحمد علي الفرجاني", list: "كشف المفرج عنهم" },
-            { id: "6145", name: "مفتاح الصديق على الرقيق", list: "كشف شهر 9 - 2026" },
-            { id: "6146", name: "مفتاح المهدي محمد ابوسدره", list: "كشف شهر 9 - 2026" },
-            { id: "6147", name: "مفتاح جمعه عبدالله الشيباني", list: "كشف شهر 9 - 2026" },
-            { id: "6148", name: "مفتاح حسن مفتاح أبو شعاله", list: "كشف شهر 9 - 2026" },
-            { id: "6149", name: "مفتاح رجب ابراهيم النيبو", list: "كشف شهر 9 - 2026" },
-            { id: "6150", name: "مفتاح رياض مفتاح عطيه", list: "كشف شهر 9 - 2026" },
-            { id: "6151", name: "مفتاح سالم محمد القيب", list: "كشف شهر 9 - 2026" },
-            { id: "6152", name: "مفتاح سالم مفتاح أحمد", list: "كشف شهر 9 - 2026" },
-            { id: "6153", name: "مفتاح سعد عمار اللبيب", list: "كشف شهر 9 - 2026" },
-            { id: "6154", name: "مفتاح ضو مفتاح الصيد", list: "كشف شهر 9 - 2026" },
-            { id: "6155", name: "مفتاح عبد الرحمن منصور بن عمران", list: "كشف شهر 9 - 2026" },
-            { id: "6156", name: "مفتاح عبد العاطى مفتاح عمر", list: "كشف شهر 9 - 2026" },
-            { id: "6157", name: "مفتاح عبد اللطيف سالم بوراص", list: "كشف شهر 9 - 2026" },
-            { id: "6158", name: "مفتاح على أمراجع صالح", list: "كشف شهر 9 - 2026" },
-            { id: "6159", name: "مفتاح على مفتاح اهبال", list: "كشف شهر 9 - 2026" },
-            { id: "6160", name: "مفتاح محمد مفتاح الشوشان", list: "كشف شهر 9 - 2026" },
-            { id: "6161", name: "مفتاح منجي مفتاح انبيه", list: "كشف شهر 9 - 2026" },
-            { id: "6162", name: "مفتاح منصور سالم الأبيض", list: "كشف شهر 9 - 2026" },
-            { id: "6163", name: "مفتاح ميلاد عمر القبي", list: "كشف شهر 9 - 2026" },
-            { id: "6164", name: "مفتاح ناصر مفتاح ابو خشيم", list: "كشف شهر 9 - 2026" },
-            { id: "6165", name: "مفتاح نوری مفتاح عمار", list: "كشف شهر 9 - 2026" },
-            { id: "6166", name: "مفتاح يوسف مفتاح اللواتي", list: "كشف شهر 9 - 2026" },
-            { id: "6167", name: "مفيدة اعقاب خليفة حسن", list: "كشف شهر 9 - 2026" },
-            { id: "6168", name: "مفيدة البشير خليفة كريدان", list: "كشف شهر 9 - 2026" },
-            { id: "6169", name: "مفيده عاشور على الرتيمي", list: "كشف شهر 9 - 2026" },
-            { id: "6170", name: "مقبوله عبد القادر عبد الله عبد القادر", list: "كشف شهر 9 - 2026" },
-            { id: "6171", name: "مكرم مفتاح محمد عجينة", list: "كشف شهر 9 - 2026" },
-            { id: "6172", name: "ملاك أحمد مسعود كعوان", list: "كشف شهر 9 - 2026" },
-            { id: "6173", name: "ملاك ابراهيم احمد المحريق", list: "كشف شهر 9 - 2026" },
-            { id: "6174", name: "ملاك احمد ميلاد عاشور", list: "كشف شهر 9 - 2026" },
-            { id: "6175", name: "ملاك الخضير على التائب", list: "كشف شهر 9 - 2026" },
-            { id: "6176", name: "ملاك الصديق مفتاح أبوشفشوفه", list: "كشف شهر 9 - 2026" },
-            { id: "6177", name: "ملاك المبروك خليل كحيل", list: "كشف شهر 9 - 2026" },
-            { id: "6178", name: "ملاك المختار امحمد الشريف", list: "كشف شهر 9 - 2026" },
-            { id: "6179", name: "ملاك المختار على جبيره", list: "كشف شهر 9 - 2026" },
-            { id: "6180", name: "ملاك امين شمس الدين شيحه", list: "كشف شهر 9 - 2026" },
-            { id: "6181", name: "ملاك بالقاسم محمد حسين", list: "كشف شهر 9 - 2026" },
-            { id: "6182", name: "ملاك جمال البشير خليفة الاجطل", list: "كشف شهر 9 - 2026" },
-            { id: "6183", name: "ملاك جمعه محمد ابو النيران", list: "كشف شهر 9 - 2026" },
-            { id: "6184", name: "ملاك حسين عيسى سيجوك", list: "كشف شهر 9 - 2026" },
-            { id: "6185", name: "ملاك خالد أحمد التجاني مازن", list: "كشف شهر 9 - 2026" },
-            { id: "6186", name: "ملاك رمضان المختار دقالي", list: "كشف شهر 9 - 2026" },
-            { id: "6187", name: "ملاك سالم محمد العابدي", list: "كشف شهر 9 - 2026" },
-            { id: "6188", name: "ملاك سليمان علي الجابري", list: "كشف شهر 9 - 2026" },
-            { id: "6189", name: "ملاك صبحى عبد الله المزوغي", list: "كشف شهر 9 - 2026" },
-            { id: "6190", name: "ملاك طاهر بوبكر الصيديه", list: "كشف شهر 9 - 2026" },
-            { id: "6191", name: "ملاك عبد الرحمن مسعود المرغني", list: "كشف شهر 9 - 2026" },
-            { id: "6192", name: "ملاك عبد الرحيم مصطفى الدهماني", list: "كشف شهر 9 - 2026" },
-            { id: "6194", name: "ملاك عبد الفتاح فرج الحاج محمد", list: "كشف شهر 9 - 2026" },
-            { id: "6195", name: "ملاك عبدالله خميس رحومة", list: "كشف شهر 9 - 2026" },
-            { id: "6377", name: "هادي صالح محمد القمودي", list: "كشف شهر 9 - 2026" }
-        ];
+        let releaseData = [];
 
-        document.getElementById('resultsCount').innerText = `إجمالي الأسماء المتاحة في قاعدة البيانات: ${releaseData.length} اسم`;
-
+        const excelInput = document.getElementById('excelFile');
         const searchInput = document.getElementById('searchInput');
         const resultsContainer = document.getElementById('resultsContainer');
+        const resultsCount = document.getElementById('resultsCount');
+        const uploadSection = document.getElementById('uploadSection');
         const clearBtn = document.getElementById('clearBtn');
 
+        // استقبال وتحليل ملف الإكسل تلقائياً
+        excelInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            resultsCount.innerText = "جاري قراءة وتحميل الأسماء، قليل من الدقة...";
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    
+                    // قراءة أول ورقة عمل في ملف الإكسل
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    
+                    // تحويل بيانات الإكسل إلى مصفوفة JSON
+                    const jsonRows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    
+                    releaseData = [];
+                    // تخطي صف العناوين البدء من الصف الثاني (index 1)
+                    for (let i = 1; i < jsonRows.length; i++) {
+                        let row = jsonRows[i];
+                        if (row && row.length > 0) {
+                            // يفترض أن العمود الأول هو رقم القيد والعمود الثاني هو الاسم
+                            let id = row[0] !== undefined ? String(row[0]) : String(i);
+                            let name = row[1] !== undefined ? String(row[1]) : (row[0] !== undefined && typeof row[0] === 'string' && !/\d/.test(row[0]) ? row[0] : '');
+                            
+                            // معالجة ذكية في حال كان العمود الأول هو الاسم والعمود الثاني هو الرقم أو العكس
+                            if (!name && row[0]) name = String(row[0]);
+
+                            if (name && name.trim() !== "") {
+                                releaseData.push({
+                                    id: id.trim(),
+                                    name: name.trim(),
+                                    list: "كشف المفرج عنهم 2026"
+                                });
+                            }
+                        }
+                    }
+
+                    if (releaseData.length > 0) {
+                        resultsCount.innerText = `تم بنجاح تحميل ${releaseData.length} اسماً وقيداً. جاهز للبحث الفوري!`;
+                        searchInput.removeAttribute('disabled');
+                        uploadSection.classList.add('bg-emerald-50', 'border-emerald-300');
+                        uploadSection.innerHTML = `
+                            <div class="text-emerald-800 font-bold text-center">
+                                ✓ تم تحميل قاعدة البيانات بنجاح (${releaseData.length} سجل متاح للبحث)
+                            </div>
+                        `;
+                        resultsContainer.innerHTML = `
+                            <div class="text-center py-12 bg-white/50 rounded-2xl border border-dashed border-slate-300">
+                                <p class="text-slate-500 font-medium">ابدأ بكتابة الاسم أو رقم القيد في خانة البحث بالأعلى</p>
+                            </div>
+                        `;
+                    } else {
+                        resultsCount.innerText = "لم يتم العثور على أعمدة صالحة في الملف، تأكد من تخطيط الجدول.";
+                    }
+
+                } catch (err) {
+                    resultsCount.innerText = "حدث خطأ أثناء قراءة الملف، تأكد من أنه ملف إكسل صالح.";
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        // محرك البحث الفوري
         searchInput.addEventListener('input', function(e) {
             const query = e.target.value.trim().toLowerCase();
             
             if (query.length === 0) {
                 resultsContainer.innerHTML = `
                     <div class="text-center py-12 bg-white/50 rounded-2xl border border-dashed border-slate-300">
-                        <p class="text-slate-500 font-medium">ابدأ بكتابة الاسم للبحث في السجلات الرسمية</p>
+                        <p class="text-slate-500 font-medium">ابدأ بكتابة الاسم أو رقم القيد للبحث...</p>
                     </div>
                 `;
                 clearBtn.classList.add('hidden');
@@ -172,7 +197,7 @@
             clearBtn.classList.remove('hidden');
 
             const filtered = releaseData.filter(item => 
-                item.name.toLowerCase().includes(query) || item.id.includes(query)
+                item.name.toLowerCase().includes(query) || item.id.toLowerCase().includes(query)
             );
 
             if (filtered.length === 0) {
@@ -189,7 +214,8 @@
                 تم العثور على ${filtered.length} نتيجة مطابقة:
             </div>`;
 
-            filtered.forEach(person => {
+            // عرض أول 100 نتيجة فقط لتجنب تعليق المتصفح وسرعة الأداء
+            filtered.slice(0, 100).forEach(person => {
                 html += `
                     <div class="bg-white rounded-2xl shadow-sm hover:shadow-md border border-slate-200 p-5 transition flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div class="flex items-start space-x-4 space-x-reverse">
