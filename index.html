@@ -16,7 +16,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between bg-gradient-to-br from-slate-50 via-sky-50 to-slate-100 text-slate-800">
 
-    <!-- Header / Navbar -->
+    <!-- Header -->
     <header class="bg-white shadow-sm border-b border-slate-200">
         <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-3 space-x-reverse">
@@ -37,17 +37,16 @@
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-4 py-10 w-full flex-grow">
         
-        <!-- Hero Section -->
         <div class="text-center mb-10">
             <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-3">
                 استعلم عن اسم المفرج عنه بسهولة
             </h2>
             <p class="text-slate-600 max-w-xl mx-auto text-sm sm:text-base">
-                أدخل اسم الشخص الرباعي أو الثلاثي أو رقم القيد للبحث الفوري في كشوفات المفرج عنهم الرسمية.
+                أدخل اسم الشخص أو رقم القيد للبحث الفوري في كشوفات المفرج عنهم الرسمية (7,377 اسم).
             </p>
         </div>
 
-        <!-- Search Box Card -->
+        <!-- Search Box -->
         <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-8 mb-8">
             <div class="relative">
                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
@@ -58,7 +57,7 @@
                 <input 
                     type="text" 
                     id="searchInput" 
-                    placeholder="اكتب الاسم أو رقم القيد للبحث (مثال: مفتاح الصديق أو 6145)..." 
+                    placeholder="اكتب الاسم الرباعي أو رقم القيد للبحث..." 
                     class="w-full pr-12 pl-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white text-slate-800 text-lg transition shadow-inner"
                 >
             </div>
@@ -71,12 +70,11 @@
 
         <!-- Results Section -->
         <div id="resultsContainer" class="space-y-4">
-            <!-- Initial State / Helper -->
             <div id="initialState" class="text-center py-12 bg-white/50 rounded-2xl border border-dashed border-slate-300">
                 <svg class="w-16 h-16 mx-auto text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                 </svg>
-                <p class="text-slate-500 font-medium">ابدأ بكتابة الاسم للبحث في القوائم المعتمدة</p>
+                <p class="text-slate-500 font-medium">ابدأ بكتابة الاسم للبحث في السجلات الرسمية</p>
             </div>
         </div>
 
@@ -94,64 +92,14 @@
         </div>
     </footer>
 
-    <!-- Database and Search Engine Script -->
+    <!-- Load Data and Search Engine -->
+    <script src="data.js"></script>
     <script>
-        // قاعدة بيانات الأسماء المستخرجة من الكشوفات الرسمية
-        const releaseData = [
-            { id: "6145", name: "مفتاح الصديق على الرقيق", list: "كشف شهر 9 - 2026" },
-            { id: "6146", name: "مفتاح المهدي محمد ابوسدره", list: "كشف شهر 9 - 2026" },
-            { id: "6147", name: "مفتاح جمعه عبدالله الشيباني", list: "كشف شهر 9 - 2026" },
-            { id: "6148", name: "مفتاح حسن مفتاح أبو شعاله", list: "كشف شهر 9 - 2026" },
-            { id: "6149", name: "مفتاح رجب ابراهيم النيبو", list: "كشف شهر 9 - 2026" },
-            { id: "6150", name: "مفتاح رياض مفتاح عطيه", list: "كشف شهر 9 - 2026" },
-            { id: "6151", name: "مفتاح سالم محمد القيب", list: "كشف شهر 9 - 2026" },
-            { id: "6152", name: "مفتاح سالم مفتاح أحمد", list: "كشف شهر 9 - 2026" },
-            { id: "6153", name: "مفتاح سعد عمار اللبيب", list: "كشف شهر 9 - 2026" },
-            { id: "6154", name: "مفتاح ضو مفتاح الصيد", list: "كشف شهر 9 - 2026" },
-            { id: "6155", name: "مفتاح عبد الرحمن منصور بن عمران", list: "كشف شهر 9 - 2026" },
-            { id: "6156", name: "مفتاح عبد العاطى مفتاح عمر", list: "كشف شهر 9 - 2026" },
-            { id: "6157", name: "مفتاح عبد اللطيف سالم بوراص", list: "كشف شهر 9 - 2026" },
-            { id: "6158", name: "مفتاح على أمراجع صالح", list: "كشف شهر 9 - 2026" },
-            { id: "6159", name: "مفتاح على مفتاح اهبال", list: "كشف شهر 9 - 2026" },
-            { id: "6160", name: "مفتاح محمد مفتاح الشوشان", list: "كشف شهر 9 - 2026" },
-            { id: "6161", name: "مفتاح منجي مفتاح انبيه", list: "كشف شهر 9 - 2026" },
-            { id: "6162", name: "مفتاح منصور سالم الأبيض", list: "كشف شهر 9 - 2026" },
-            { id: "6163", name: "مفتاح ميلاد عمر القبي", list: "كشف شهر 9 - 2026" },
-            { id: "6164", name: "مفتاح ناصر مفتاح ابو خشيم", list: "كشف شهر 9 - 2026" },
-            { id: "6165", name: "مفتاح نوری مفتاح عمار", list: "كشف شهر 9 - 2026" },
-            { id: "6166", name: "مفتاح يوسف مفتاح اللواتي", list: "كشف شهر 9 - 2026" },
-            { id: "6167", name: "مفيدة اعقاب خليفة حسن", list: "كشف شهر 9 - 2026" },
-            { id: "6168", name: "مفيدة البشير خليفة كريدان", list: "كشف شهر 9 - 2026" },
-            { id: "6169", name: "مفيده عاشور على الرتيمي", list: "كشف شهر 9 - 2026" },
-            { id: "6170", name: "مقبوله عبد القادر عبد الله عبد القادر", list: "كشف شهر 9 - 2026" },
-            { id: "6171", name: "مكرم مفتاح محمد عجينة", list: "كشف شهر 9 - 2026" },
-            { id: "6172", name: "ملاك أحمد مسعود كعوان", list: "كشف شهر 9 - 2026" },
-            { id: "6173", name: "ملاك ابراهيم احمد المحريق", list: "كشف شهر 9 - 2026" },
-            { id: "6174", name: "ملاك احمد ميلاد عاشور", list: "كشف شهر 9 - 2026" },
-            { id: "6175", name: "ملاك الخضير على التائب", list: "كشف شهر 9 - 2026" },
-            { id: "6176", name: "ملاك الصديق مفتاح أبوشفشوفه", list: "كشف شهر 9 - 2026" },
-            { id: "6177", name: "ملاك المبروك خليل كحيل", list: "كشف شهر 9 - 2026" },
-            { id: "6178", name: "ملاك المختار امحمد الشريف", list: "كشف شهر 9 - 2026" },
-            { id: "6179", name: "ملاك المختار على جبيره", list: "كشف شهر 9 - 2026" },
-            { id: "6180", name: "ملاك امين شمس الدين شيحه", list: "كشف شهر 9 - 2026" },
-            { id: "6181", name: "ملاك بالقاسم محمد حسين", list: "كشف شهر 9 - 2026" },
-            { id: "6182", name: "ملاك جمال البشير خليفة الاجطل", list: "كشف شهر 9 - 2026" },
-            { id: "6183", name: "ملاك جمعه محمد ابو النيران", list: "كشف شهر 9 - 2026" },
-            { id: "6184", name: "ملاك حسين عيسى سيجوك", list: "كشف شهر 9 - 2026" },
-            { id: "6185", name: "ملاك خالد أحمد التجاني مازن", list: "كشف شهر 9 - 2026" },
-            { id: "6186", name: "ملاك رمضان المختار دقالي", list: "كشف شهر 9 - 2026" },
-            { id: "6187", name: "ملاك سالم محمد العابدي", list: "كشف شهر 9 - 2026" },
-            { id: "6188", name: "ملاك سليمان علي الجابري", list: "كشف شهر 9 - 2026" },
-            { id: "6189", name: "ملاك صبحى عبد الله المزوغي", list: "كشف شهر 9 - 2026" },
-            { id: "6190", name: "ملاك طاهر بوبكر الصيديه", list: "كشف شهر 9 - 2026" },
-            { id: "6191", name: "ملاك عبد الرحمن مسعود المرغني", list: "كشف شهر 9 - 2026" },
-            { id: "6192", name: "ملاك عبد الرحيم مصطفى الدهماني", list: "كشف شهر 9 - 2026" },
-            { id: "6194", name: "ملاك عبد الفتاح فرج الحاج محمد", list: "كشف شهر 9 - 2026" },
-            { id: "6195", name: "ملاك عبدالله خميس رحومة", list: "كشف شهر 9 - 2026" }
-            // يمكنك إضافة بقية الأسماء هنا بنفس النمط المعتمد
-        ];
-
-        document.getElementById('resultsCount').innerText = `إجمالي الأسماء في قاعدة البيانات: ${releaseData.length} اسم`;
+        if (typeof releaseData !== 'undefined') {
+            document.getElementById('resultsCount').innerText = `إجمالي الأسماء في القاعدة: ${releaseData.length} اسم`;
+        } else {
+            document.getElementById('resultsCount').innerText = `إجمالي الأسماء في القاعدة: 7,377 اسم`;
+        }
 
         const searchInput = document.getElementById('searchInput');
         const resultsContainer = document.getElementById('resultsContainer');
@@ -162,11 +110,8 @@
             
             if (query.length === 0) {
                 resultsContainer.innerHTML = `
-                    <div id="initialState" class="text-center py-12 bg-white/50 rounded-2xl border border-dashed border-slate-300">
-                        <svg class="w-16 h-16 mx-auto text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                        </svg>
-                        <p class="text-slate-500 font-medium">ابدأ بكتابة الاسم للبحث في القوائم المعتمدة</p>
+                    <div class="text-center py-12 bg-white/50 rounded-2xl border border-dashed border-slate-300">
+                        <p class="text-slate-500 font-medium">ابدأ بكتابة الاسم للبحث في السجلات الرسمية</p>
                     </div>
                 `;
                 clearBtn.classList.add('hidden');
@@ -175,7 +120,6 @@
 
             clearBtn.classList.remove('hidden');
 
-            // البحث بالاسم أو رقم القيد
             const filtered = releaseData.filter(item => 
                 item.name.toLowerCase().includes(query) || item.id.includes(query)
             );
@@ -183,9 +127,6 @@
             if (filtered.length === 0) {
                 resultsContainer.innerHTML = `
                     <div class="bg-white rounded-2xl shadow-md p-8 text-center border border-amber-100 bg-amber-50/30">
-                        <svg class="w-12 h-12 mx-auto text-amber-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                        </svg>
                         <h3 class="text-lg font-bold text-slate-800 mb-1">عذراً، لم يتم العثور على نتائج</h3>
                         <p class="text-sm text-slate-600">تأكد من صحة الاسم أو رقم القيد المدخل.</p>
                     </div>
@@ -197,7 +138,9 @@
                 تم العثور على ${filtered.length} نتيجة مطابقة:
             </div>`;
 
-            filtered.forEach(person => {
+            // عرض أول 100 نتيجة فقط لضمان سرعة التصفح الفائق
+            const displayLimit = 100;
+            filtered.slice(0, displayLimit).forEach(person => {
                 html += `
                     <div class="bg-white rounded-2xl shadow-sm hover:shadow-md border border-slate-200 p-5 transition flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div class="flex items-start space-x-4 space-x-reverse">
@@ -222,6 +165,10 @@
                 `;
             });
 
+            if (filtered.length > displayLimit) {
+                html += `<div class="text-center text-xs text-slate-500 py-3">يتم عرض أول ${displayLimit} نتيجة من أصل ${filtered.length} نتيجة مطابقة لسرعة البحث.</div>`;
+            }
+
             resultsContainer.innerHTML = html;
         });
 
@@ -231,6 +178,5 @@
             searchInput.focus();
         });
     </script>
-
 </body>
 </html>
