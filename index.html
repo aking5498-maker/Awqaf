@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة صوت العربان - تقديم البلاغات</title>
+    <title>منصة صوت العربان</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -36,26 +36,25 @@
             background-color: #fff;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             padding: 12px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
             z-index: 100;
         }
-        nav button {
+        .nav-btn {
             background: none;
             border: none;
-            text-decoration: none;
-            color: #1976d2;
-            font-weight: 600;
             font-size: 16px;
+            font-weight: 600;
+            color: #1976d2;
             padding: 8px 20px;
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s;
         }
-        nav button:hover, nav button.active {
+        .nav-btn:hover, .nav-btn.active {
             background-color: #1976d2;
             color: white;
         }
@@ -70,6 +69,10 @@
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             margin-bottom: 30px;
+            display: none;
+        }
+        .card.active-view {
+            display: block;
         }
         .card h2 {
             color: #0d47a1;
@@ -90,7 +93,7 @@
         .form-group input, .form-group textarea {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ccc;
+            border: 1px solid #cfd8dc;
             border-radius: 8px;
             font-size: 14px;
             transition: border-color 0.3s;
@@ -98,39 +101,36 @@
         .form-group input:focus, .form-group textarea:focus {
             border-color: #1976d2;
             outline: none;
+            box-shadow: 0 0 5px rgba(25, 118, 210, 0.2);
         }
-        .btn {
-            background-color: #1976d2;
+        .btn-whatsapp {
+            background-color: #25d366;
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 14px 25px;
             font-size: 16px;
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
             width: 100%;
             transition: background 0.3s;
-            margin-top: 10px;
-        }
-        .btn:hover {
-            background-color: #0d47a1;
-        }
-        .btn-whatsapp {
-            background-color: #25d366;
-            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         .btn-whatsapp:hover {
-            background-color: #128c7e;
+            background-color: #1ebe5d;
         }
-        /* قسم أرقام تهمك */
+        /* تصميم أرقام تهمك */
         .grid-contacts {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 15px;
         }
         .contact-box {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
+            background: #f8fbff;
+            border: 1px solid #bbdefb;
             padding: 18px;
             border-radius: 8px;
             text-align: center;
@@ -138,30 +138,32 @@
         .contact-box h3 {
             font-size: 16px;
             color: #0d47a1;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
+        }
+        .contact-box p {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 12px;
         }
         .contact-box a {
             display: inline-block;
             background-color: #e3f2fd;
-            color: #1976d2;
+            color: #0d47a1;
             padding: 6px 15px;
             border-radius: 6px;
             text-decoration: none;
             font-size: 13px;
             font-weight: 600;
-            margin-top: 8px;
+            transition: background 0.3s;
         }
-        .page-section {
-            display: none;
-        }
-        .page-section.active {
-            display: block;
+        .contact-box a:hover {
+            background-color: #bbdefb;
         }
         footer {
             text-align: center;
-            padding: 20px;
-            background-color: #1e293b;
-            color: #94a3b8;
+            padding: 25px;
+            background-color: #102a43;
+            color: #829ab1;
             font-size: 13px;
             margin-top: 50px;
         }
@@ -169,40 +171,51 @@
             color: #fff;
             font-weight: 600;
         }
+        .info-note {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 
     <header>
         <h1>منصة صوت العربان</h1>
-        <p>بوابة المواطن لتقديم البلاغات والشكاوى الخدمية في بلدية العربان</p>
+        <p>بوابة المواطن لتقديم البلاغات والخدمات في بلدية العربان</p>
     </header>
 
     <nav>
-        <button id="navReport" class="active" onclick="switchPage('report')">تقديم بلاغ</button>
-        <button id="navContacts" onclick="switchPage('contacts')">أرقام تهمك</button>
+        <button class="nav-btn active" onclick="switchTab('reportTab', this)">تقديم بلاغ</button>
+        <button class="nav-btn" onclick="switchTab('contactsTab', this)">أرقام تهمك</button>
     </nav>
 
     <div class="container">
         
         <!-- واجهة تقديم بلاغ -->
-        <div id="reportPage" class="card page-section active">
+        <div id="reportTab" class="card active-view">
             <h2>تقديم بلاغ جديد</h2>
+            <div class="info-note">
+                ملاحظة: عند الضغط على إرسال سيتم تحويلك مباشرة لتطبيق الواتساب الخاص بمشرف المنصة لإرسال البلاغ بشكل فوري.
+            </div>
             
             <form id="reportForm" onsubmit="sendToWhatsApp(event)">
                 <div class="form-group">
                     <label for="citizenName">اسم المواطن (اختياري)</label>
-                    <input type="text" id="citizenName" placeholder="أدخل اسمك الكريم (اختياري)">
+                    <input type="text" id="citizenName" placeholder="أدخل اسمك الكريم">
                 </div>
 
                 <div class="form-group">
                     <label for="incidentLocation">مكان الحادثة / المشكلة <span style="color: red;">*</span></label>
-                    <input type="text" id="incidentLocation" required placeholder="مثال: الشارع الرئيسي، حي الزهور...">
+                    <input type="text" id="incidentLocation" required placeholder="اكتب مكان المشكلة بوضوح...">
                 </div>
 
-                <div class="main-group form-group">
+                <div class="form-group">
                     <label for="landmark">أقرب نقطة دالة (علامة مميزة) <span style="color: red;">*</span></label>
-                    <input type="text" id="landmark" required placeholder="مثال: بجانب مسجد التقوى / خلف المدرسة...">
+                    <input type="text" id="landmark" required placeholder="مثال: بجانب مسجد، قرب مدرسة...">
                 </div>
 
                 <div class="form-group">
@@ -212,49 +225,53 @@
 
                 <div class="form-group">
                     <label for="description">وصف المشكلة تفصيلياً <span style="color: red;">*</span></label>
-                    <textarea id="description" rows="4" required placeholder="اكتب تفاصيل المشكلة (مثال: انقطاع كابل كهرباء وشرر ظاهر)..."></textarea>
+                    <textarea id="description" rows="4" required placeholder="اشرح تفاصيل المشكلة باختصار..."></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label for="incidentImage">ملاحظة حول الصورة (اختياري)</label>
-                    <input type="text" id="imageNote" placeholder="يمكنك وصف الصورة أو إرفاقها عند فتح الواتساب">
-                </div>
-
-                <button type="submit" class="btn btn-whatsapp">إرسال البلاغ مباشرة عبر واتساب للمشرف</button>
+                <button type="submit" class="btn-whatsapp">
+                    <span>إرسال البلاغ عبر الواتساب للمشرف</span>
+                </button>
             </form>
         </div>
 
-        <!-- واجهة أرقام تهمك المستقلة -->
-        <div id="contactsPage" class="card page-section">
-            <h2>أرقام تهمك (دليل الجهات الخدمية والأمنية)</h2>
+        <!-- واجهة أرقام تهمك -->
+        <div id="contactsTab" class="card">
+            <h2>أرقام تهمك (دليل الجهات الخدمية)</h2>
             <div class="grid-contacts">
                 <div class="contact-box">
-                    <h3>جهاز الحرس البلدي العربان</h3>
-                    <a href="tel:0910000000">اتصال مباشر</a>
+                    <h3>جهاز الحرس البلدي</h3>
+                    <p>فرع بلدية العربان</p>
+                    <a href="tel:">اتصال مباشر</a>
                 </div>
                 <div class="contact-box">
-                    <h3>مكتب خدمات شركة الكهرباء العربان</h3>
-                    <a href="tel:0910000000">اتصال مباشر</a>
+                    <h3>شركة الكهرباء</h3>
+                    <p>مكتب خدمات الكهرباء العربان</p>
+                    <a href="tel:">اتصال مباشر</a>
                 </div>
                 <div class="contact-box">
                     <h3>مستشفى العربان العام</h3>
-                    <a href="tel:0910000000">اتصال مباشر</a>
+                    <p>الطوارئ والإسعاف</p>
+                    <a href="tel:">اتصال مباشر</a>
                 </div>
                 <div class="contact-box">
                     <h3>مستشفى العربان الشرقية</h3>
-                    <a href="tel:0910000000">اتصال مباشر</a>
+                    <p>الخدمات الطبية</p>
+                    <a href="tel:">اتصال مباشر</a>
                 </div>
                 <div class="contact-box">
-                    <h3>مستشفى العربان التخصصي لصحة الأسرة</h3>
-                    <a href="tel:0910000000">اتصال مباشر</a>
+                    <h3>مستشفى العربان التخصصي</h3>
+                    <p>صحة الأسرة</p>
+                    <a href="tel:">اتصال مباشر</a>
                 </div>
                 <div class="contact-box">
-                    <h3>مركز الشرطة العربان الشرقية</h3>
-                    <a href="tel:0910000000">اتصال مباشر</a>
+                    <h3>مركز شرطة العربان الشرقية</h3>
+                    <p>الطوارئ الأمنية</p>
+                    <a href="tel:">اتصال مباشر</a>
                 </div>
                 <div class="contact-box">
-                    <h3>مركز الشرطة العربان الغربية</h3>
-                    <a href="tel:0910000000">اتصال مباشر</a>
+                    <h3>مركز شرطة العربان الغربية</h3>
+                    <p>الطوارئ الأمنية</p>
+                    <a href="tel:">اتصال مباشر</a>
                 </div>
             </div>
         </div>
@@ -263,55 +280,43 @@
 
     <footer>
         <p>تم تصميم وبرمجة المنصة بواسطة: <span>م. عبدالباري سعدون فرحات</span></p>
-        <p style="margin-top: 5px; color: #64748b;">منصة مستقلة تطوعية لخدمة المجتمع وليست جهة حكومية رسمية</p>
+        <p style="margin-top: 5px;">راتف واتساب / هاتف: <a href="tel:0919892021" style="color: #64ffda; text-decoration: none;">0919892021</a></p>
+        <p style="margin-top: 8px; font-size: 12px; opacity: 0.7;">منصة مستقلة تطوعية لخدمة المجتمع وليست جهة حكومية رسمية</p>
     </footer>
 
     <script>
-        function switchPage(pageId) {
-            // إخفاء الكل
-            document.getElementById('reportPage').classList.remove('active');
-            document.getElementById('contactsPage').classList.remove('active');
-            document.getElementById('navReport').classList.remove('active');
-            document.getElementById('navContacts').classList.remove('active');
-
-            // إظهار الصفحة المطلوبة
-            if (pageId === 'report') {
-                document.getElementById('reportPage').classList.add('active');
-                document.getElementById('navReport').classList.add('active');
-            } else {
-                document.getElementById('contactsPage').classList.add('active');
-                document.getElementById('navContacts').classList.add('active');
-            }
+        // دالة التنقل بين واجهة تقديم البلاغ وأرقام تهمك
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.card').forEach(card => card.classList.remove('active-view'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active-view');
+            btnElement.classList.add('active');
         }
 
+        // دالة توليد رسالة الواتساب وإرسالها مباشرة لرقمك كمشرف
         function sendToWhatsApp(event) {
             event.preventDefault();
 
-            // استخراج البيانات المدخلة
-            const name = document.getElementById('citizenName').value || 'مواطن (لم يذكر الاسم)';
+            const name = document.getElementById('citizenName').value || 'غير محدد';
             const location = document.getElementById('incidentLocation').value;
             const landmark = document.getElementById('landmark').value;
-            const phone = document.getElementById('phone').value || 'غير متوفر';
+            const phone = document.getElementById('phone').value || 'غير محدد';
             const desc = document.getElementById('description').value;
-            const imageNote = document.getElementById('imageNote').value;
 
-            // رقم هاتفك كمشرف (استبدل الرقم أدناه برقم الواتساب الخاص بك مع رمز الدولة، مثال: 21891XXXXXXX)
-            const adminPhone = "218910000000"; 
+            // رقم المشرف الخاص بك
+            const adminPhone = "218919892021"; 
 
-            // صياغة رسالة الواتساب بشكل منظم
-            let message = `🚨 *بلاغ جديد عبر منصة صوت العربان*%0A%0A`;
-            message += `👤 *المبلغ:* ${name}%0A`;
-            message += `📍 *مكان الحادثة:* ${location}%0A`;
+            let message = `*بلاع جديد من منصة صوت العربان* 🚨%0A%0A`;
+            message += `👤 *اسم المواطن:* ${name}%0A`;
+            message += `📍 *المكان:* ${location}%0A`;
             message += `📌 *أقرب نقطة دالة:* ${landmark}%0A`;
             message += `📞 *رقم الهاتف:* ${phone}%0A`;
-            message += `📝 *تفاصيل المشكلة:* ${desc}%0A`;
-            if(imageNote) {
-                message += `📷 *ملاحظة الصورة:* ${imageNote}%0A`;
-            }
+            message += `📝 *التفاصيل:* ${desc}%0A`;
 
-            // فتح تطبيق واتساب وإرسال الرسالة مباشرة
-            const whatsappURL = `https://wa.me/${adminPhone}?text=${message}`;
-            window.open(whatsappURL, '_blank');
+            // فتح تطبيق واتساب مباشرة بالرسالة الجاهزة
+            const whatsappUrl = `https://wa.me/${adminPhone}?text=${message}`;
+            window.open(whatsappUrl, '_blank');
         }
     </script>
 </body>
